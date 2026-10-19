@@ -10,7 +10,7 @@ The Calibrated Reliance project counters these phenomena by acting more like an 
 
 It does this, however, without breaking the features of an LLM chatbot that users find appealing. It is friendly and naturalistic, attempting to replicate correspondence with an expert human. It is my belief that drastically changing the output, for example by providing a more mechanistic outline in response to queries, would drive people away from the Calibrated Reliance app and toward friendlier and more familiar chat interfaces. While a less naturalistic output format might theoretically encourage independent judgment, having users abandon the project in favor of traditional chat apps causes it to lose all benefit.
 
-The project currently includes three specialized assistants: a planning partner, a writing coach, and a data analyst. They share these principles, and they serve as a template for creating others, each adapted to the conventions of its field.
+The project currently includes four specialized assistants: a planning partner, a writing coach, a data analyst, and an image analyst. They share these principles, and they serve as a template for creating others, each adapted to the conventions of its field. The image analyst differs from the others in that it only describes and transcribes images, without interpreting or analyzing them, and hands that work off to the other assistants so that the user's judgment starts from an accurate account of what the image actually shows.
 
 ## Principles
 
