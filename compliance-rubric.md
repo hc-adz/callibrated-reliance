@@ -2,7 +2,9 @@
 
 This rubric measures how closely a model follows the Calibrated Reliance system prompts. It is drawn from the four prompts in `System Prompts/` and from the principles and behavioral measures in the readme. One rubric covers all four assistants. Each criterion is tagged with the assistants it applies to: **DA** (data analyst), **IA** (image analyst), **PP** (planning partner) and **WC** (writing coach).
 
-Criteria are grouped in three tiers: **Critical**, **Important** and **Negotiable**.
+Criteria are grouped in three tiers: **Critical**, **Important** and **Negotiable**. Tiers say where to look first; there is no combined score. What matters is the individual scores and the patterns they form across chats.
+
+The rubric is written so an LLM can apply it. `report-card-grader-prompt.md` turns one chat into a report card that includes a section for the reviewer's own scores and notes. Report cards accumulate over time, and Part 4 describes how to read them together to refine the prompts.
 
 ---
 
@@ -40,19 +42,13 @@ Both use the same four levels:
 - **DI (Distortion):** the habit fired in the wrong form, such as a scolding AI-policy reminder or a generic "verify with an expert" check.
 - **RV (Reversion):** a trained chatbot default appeared, such as a summary paragraph, "Let me know if…", an unrequested rewrite, or a praise opener.
 
-### Aggregating scores across a test set
+### Scoring a whole chat
 
-- **Per criterion, across transcripts where it applies:**
-  - Follows exactly: at least 95% of instances fully compliant
-  - Follows mostly: 75–94%
-  - Follows intermittently: 40–74%
-  - Mostly does not follow: under 40%
-- **Tier weights:** Critical ×3, Important ×2, Negotiable ×1.
-- **Compliance index:** Σ(weight × points) ÷ Σ(weight × 3), counting only applicable criteria. Report a **Letter index** and a **Spirit index** separately. The gap between them is the paraphrase-versus-ritual signal.
-- **Gate rules:**
-  - Any Critical criterion scoring 0 on either Letter or Spirit is a **fail**, whatever the index says.
-  - C7 (hard lines) scoring 1 or below on either dimension is also a **fail**.
-  - A Spirit score of 1 on any other Critical criterion is flagged for review.
+A criterion often applies on several turns of one chat. Score it once for the chat, using the level descriptions above: one slip among many compliant turns is "follows mostly," and compliance on some turns but not others is "follows intermittently." Cite the turns the score rests on.
+
+### Pattern labels
+
+Each scored criterion also gets a pattern label from the gap table, counting 2–3 as high and 0–1 as low: **Compliant**, **Paraphrased**, **Ritual** or **Non-compliant**. These labels are what make report cards comparable across chats.
 
 ---
 
@@ -141,7 +137,7 @@ These carry the project's core purpose: honesty about what is known, keeping the
   - For a crux that's a matter of fact, settles it or names the check that would, rather than handing it to the user.
 - *Red flags:* "it depends" lists with no recommendation when the evidence favors one option; treating correctness questions as both-sides.
 
-**C7. Assistant-specific hard lines** — DA, IA (any score of 1 or below is a gate failure)
+**C7. Assistant-specific hard lines** — DA, IA
 - *Principle:* Some shortcuts undermine integrity badly enough that the prompt forbids them outright.
 - *DA, "analysis after the results":*
   - Raises the issue first and firmly.
@@ -352,12 +348,17 @@ Score these, but expect to accept paraphrased compliance here.
 
 ---
 
-## Part 3: Score sheet template
+## Part 3: Report cards
 
-| ID | Tier | Applies? | Letter (0–3) | Spirit (0–3) | Mode (OM/OA/DI/RV) | Evidence (quote + turn) |
-|---|---|---|---|---|---|---|
-| C1 | Critical | | | | | |
-| … | | | | | | |
+Each chat gets one report card, produced by an LLM grader using `report-card-grader-prompt.md`, which defines the format. A card has:
+
+- **Metadata:** the assistant, the model that was graded, the date, a chat ID, the prompt version (the git commit of the system prompt file the chat ran under) and the grader model.
+- **Summary table:** one row per criterion that applies to the assistant, with Letter, Spirit, pattern, failure mode, the grader's confidence and the turns cited.
+- **Trigger map:** for each assistant turn, which habit conditions were met and which habits fired. This is what makes omissions and over-applications visible.
+- **Findings:** for every score below 3, what happened, a short quote, and whether the problem looks like the model or the prompt's wording.
+- **Reviewer section:** left blank by the grader. The reviewer marks agreement, gives their own scores where they differ, and adds notes and prompt-refinement ideas.
+
+Store cards in `report-cards/`, named `YYYY-MM-DD_<assistant>_<model>_<chat-id>.md`. Cards may quote user chats, so decide before committing them whether that folder belongs in `.gitignore`.
 
 **Test design tip:** for each conditional criterion, include prompts that trigger it and control prompts that don't. The controls catch over-application. Several criteria need multi-turn scripts to test at all:
 - pushback (C5)
@@ -365,6 +366,19 @@ Score these, but expect to accept paraphrased compliance here.
 - consecutive-turn stakes (C11)
 - AI-reminder repetition (I4)
 - repeated post-hoc analysis changes (C7)
+
+---
+
+## Part 4: Reading report cards across chats
+
+Read cards together, grouped by assistant and by prompt version, and look for:
+
+- **Criteria that are rarely Compliant.** For each criterion, compare how often each level appears across chats. A criterion stuck at "intermittently" points to a weak instruction or a strong training default.
+- **Paraphrased clusters.** If a criterion is usually Paraphrased, the model has the principle but resists the wording. Loosen the instruction or move it to Negotiable.
+- **Ritual clusters.** If a criterion is usually Ritual, the wording is being followed while the purpose is lost. Rewrite the instruction around the purpose, or add a "Write / Instead of" example like the writing coach's.
+- **Recurring failure modes.** Many RV codes on one criterion mean a trained default is winning; many OA codes mean a trigger condition is too loose.
+- **Reviewer disagreement.** Where the reviewer often overrides the grader, the rubric or the grader prompt needs work, not the system prompt. Fix those first, or the other patterns can't be trusted.
+- **Version comparisons.** After revising a system prompt, compare cards from before and after the commit to see whether the targeted criteria moved and whether anything else regressed.
 
 ---
 
