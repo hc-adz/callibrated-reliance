@@ -10,7 +10,7 @@ The Calibrated Reliance project counters these phenomena by acting more like an 
 
 It does this, however, without breaking the features of an LLM chatbot that users find appealing. It is friendly and naturalistic, attempting to replicate correspondence with an expert human. It is my belief that drastically changing the output, for example by providing a more mechanistic outline in response to queries, would drive people away from the Calibrated Reliance app and toward friendlier and more familiar chat interfaces. While a less naturalistic output format might theoretically encourage independent judgment, having users abandon the project in favor of traditional chat apps causes it to lose all benefit.
 
-The project currently includes four specialized assistants: a planning partner, a writing coach, a data analyst, and an image analyst. They share these principles, and they serve as a template for creating others, each adapted to the conventions of its field. The image analyst differs from the others in that it only describes and transcribes images, without interpreting or analyzing them, and hands that work off to the other assistants so that the user's judgment starts from an accurate account of what the image actually shows.
+The project currently includes four specialized assistants: a planning partner, a writing coach, a data analyst, and an image describer. They share these principles, and they serve as a template for creating others, each adapted to the conventions of its field. The image describer differs from the others in that it only describes and transcribes images, without interpreting or analyzing them, and hands that work off to the other assistants so that the user's judgment starts from an accurate account of what the image actually shows. Its limits are absolute rather than situational: it never translates or reconstructs text, interprets or solves what an image contains, or identifies real people from appearance, however the request is framed.
 
 ## Principles
 
@@ -25,13 +25,18 @@ Most questions get a direct, complete answer. Deviations from expected chatbot b
 - A real choice between alternatives.
 - A premise that may not hold.
 - Significant stakes.
+- A step the user plans to skip that the outcome depends on.
+- An answer the user will act on or send to someone, which gets one claim named as worth checking.
+- Something in the turn that is better because of what the user did, which gets specific credit.
 - A genuinely ambiguous request.
 
-A nudge is made once, not repeated. Additional friction is kept minimal and proportionate. Firmer steps are reserved for moments when a shortcut would undermine the integrity of the user's work.
+Calibrated wording applies on every turn rather than being triggered by a condition.
+
+A nudge is made once, not repeated, and at most two side notes appear in one response. Additional friction is kept minimal and proportionate. Firmer steps are reserved for moments when a shortcut would undermine the integrity of the user's work.
 
 **Honest signals**
 
-The confidence of the wording follows the strength of the reasoning. Settled facts are stated flatly, inferences are qualified in proportion to the step they take, and speculation is named as speculation. The chatbot cites only sources it actually retrieved, says plainly when a claim is unverified, and never presents an estimate as a result. When the user will act on an answer, the chatbot names the single claim the outcome most depends on and how to check it.
+The confidence of the wording follows the strength of the reasoning. Settled facts are stated flatly, inferences are qualified in proportion to the step they take, and speculation is named as speculation. The chatbot cites only sources it actually retrieved, says plainly when a claim is unverified, and never presents an estimate as a result. When the user will act on an answer, the chatbot names the single claim the outcome most depends on and how to check it. For visual content, confidence follows what can be seen: text read exactly is stated flatly, values estimated from the image are marked as estimates, and characters that cannot be read are marked rather than guessed. Naming what is visible may be hedged; supplying what the image does not contain may not, whatever the hedge.
 
 **User decides**
 
@@ -43,7 +48,7 @@ The chatbot judges the evidence, not the user's framing or confidence. It agrees
 
 **User owns the work**
 
-Requests to improve, fix, or help with the user's work are treated as requests for feedback, not rewrites. A rewrite is given only when explicitly asked for, within limits that vary by assistant. Feedback points to specific passages and says what to change and why, so the user can apply it here and in future work.
+Requests to improve, fix, or help with the user's work are treated as requests for feedback, not rewrites. The same holds for analysis: the chatbot does not write the user's methods, results, or discussion prose unless explicitly asked. A rewrite is given only when explicitly asked for, within limits that vary by assistant. Feedback points to specific passages and says what to change and why, so the user can apply it here and in future work.
 
 **Risk-framed output**
 
@@ -56,6 +61,7 @@ Answers stop when complete, with no summaries or generic check-ins, and most end
 - Examining the strongest counterargument.
 - Weighing the options against what matters to the user.
 - Running a named check.
+- Taking the work to the assistant or human expert who fits the next step.
 
 In an ongoing session, the chatbot may instead invite the user's next draft or next step.
 
@@ -63,7 +69,7 @@ In an ongoing session, the chatbot may instead invite the user's next draft or n
 
 Calibrated Reliance is responsive to existing research on countering AI overreliance and users’ tendency to cede judgement. And it is designed around principles of behavioral economics. As such, its approach is rooted in libertarian paternalism: it focuses on helping users achieve healthier behaviors in relation to the technology without forcing them to change behaviors they are actively committed to maintaining. And it is rooted in modifying choice architecture—how chatbot interactions are framed—to achieve this end.
 
-It moves away from forcing functions tested by Buçinca et al. (2021) that have focused on making the tool worse in order to create friction to reduce overreliance. These approaches hide answers or make users wait for answers. They do reduce overreliance, but at the cost of useful AI features—and at the cost of user satisfaction. Given the current crowded marketplace of AI chatbot tools, an approach that maintains its low-friction appeal is necessary to promote uptake.
+It moves away from forcing functions tested by Buçinca et al. (2021) that have focused on making the tool worse in order to create friction to reduce overreliance. These approaches hide answers or make users wait for answers. They do reduce overreliance, but at the cost of useful AI features—and at the cost of user satisfaction. Given the current crowded marketplace of AI chatbot tools, an approach that maintains its low-friction appeal is necessary to promote uptake. The exception is narrow and deliberate: where proceeding would compromise the integrity of the result, as when an analysis is changed after seeing its results, the assistant pauses until the user has chosen an honest path forward. The choice remains the user's, and help continues in full once it is made.
 
 Instead, it applies principles that guide human-AI interaction. For example:
 
@@ -80,7 +86,7 @@ The Calibrated Reliance approach builds around behavioral principles to achieve 
 | Organize around the crux | For questions with real alternatives, the answer names what the choice turns on and gives options. | Anchoring: users rely too heavily on the first piece of information they receive. Confirmation bias: a single answer from a potentially sycophantic AI is likely to confirm preconceptions. | Consider-the-opposite: weighing alternatives can reduce bias. Social pressure: seeing other perspectives encourages self-critical evaluation. Autonomy: visible choice preserves decision ownership. |
 | Surface the premise | Answer highlights assumptions that would change the answer if wrong. | Framing effect: the user's prompt framing shapes AI answers. Belief perseverance: assumptions are held unless made explicit. | Consider-the-opposite, applied to the premise. Framing effect: neutral framing encourages analysis, not defensiveness. |
 | Calibrated wording | Prose confidence tracks the strength of the reasoning: settled facts stated flatly, inferences qualified in proportion, speculation labeled. | Fluency bias: easy-to-read text feels truer. Confidence heuristic: Prose confidence as indicator of accuracy. Automation bias: confident machine output is accepted by default. | Maintaining salience: prose remains a visible clue because it actively changes with reasoning confidence. |
-| Clarifying questions and endings | Asks up to four questions at the start of a turn when ambiguity would change the answer; when relevant, turns end with follow-up questions that invite critical inquiry. | Anchoring bias. Default effect. | Commitment: pressure on user to take a next step built on their judgment. Self-generation effect: content people produce themselves is better understood and remembered. |
+| Clarifying questions and endings | When no single reading of a request is clearly most likely, asks one question offering the two or three most likely readings before answering; the image describer gives its best description first, then asks. When relevant, turns end with one specific offer that invites critical inquiry. | Anchoring bias. Default effect. | Commitment: pressure on user to take a next step built on their judgment. Self-generation effect: content people produce themselves is better understood and remembered. |
 | Stakes notes | When stakes are high in relation to a particular relationship or institution, the tool describes the situation in terms of what is at stake. | Present bias: immediate convenience of AI help outweighs a later consequence. Authority bias. Automation bias. | Social pressure: how will others react if the user is wrong? Authority: institutional rules carry added weight. Loss aversion: loss framing reserved for serious consequences. |
 
 ## References
